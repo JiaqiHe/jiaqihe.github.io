@@ -1,5 +1,5 @@
 'use client'
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Button, Card, CardBody, CardFooter } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Card, CardBody, CardFooter } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import Spline from '@splinetool/react-spline/next';
 
@@ -74,7 +74,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-6xl font-bold mb-4">Hi, I'm Jiaqi</h1>
+            <h1 className="text-6xl font-bold mb-4">Hi, I&apos;m Jiaqi</h1>
             <p className="text-xl text-gray-600 dark:text-gray-300">
               Welcome to my portfolio website
             </p>
