@@ -27,7 +27,9 @@ export default nextConfig;
   * Now the action should be triggered, and every time we submit changes to main branch. Once it's successful, we can go to the website `https://jiaqihe.github.io` and see results.
 
 
-> Caveat: After this, the local dev no longer works. I suspect that it could be related to the changes we made to `next.config.ts` file. Still unknown what is the work-around.
+> Caveat: After this, the local dev no longer works. I tried with reverting changes in the `next.config.ts` file, and it works again for the local dev version!
+
+> Note: Not sure if it's a global issue or it's me doing it incorrectly: when trying the local dev again, I got `MODULE_NOT_FOUND` errors. A closer look shows that it tries to find the module in `.next` directory, but this dir is missing. So I just __created this hidden folder `.next` manually__, and it immediately fixed the issue. 
 
 ---
 
