@@ -1,12 +1,21 @@
 /** @type {import('next').NextConfig} */
+const isProd = process.env.NODE_ENV === 'production';
+
 const nextConfig = {
-  output: 'export',  // 启用静态导出
+  output: 'export',
   images: {
-    unoptimized: true,  // GitHub Pages 不支持 Next.js 的图片优化
-    domains: ['fonts.googleapis.com', 'fonts.gstatic.com'],  // 添加 Google Fonts 到安全域名列表
+    unoptimized: true,
+    domains: ['fonts.googleapis.com', 'fonts.gstatic.com'],
   },
-  basePath: '/jiaqihe.github.io',
-  assetPrefix: '/jiaqihe.github.io',
+  basePath: isProd ? '/jiaqihe.github.io' : '',
+  assetPrefix: isProd ? '/jiaqihe.github.io' : '',
+  webpack: (config) => {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      "punycode": false,
+    };
+    return config;
+  },
 };
 
 module.exports = nextConfig; 
