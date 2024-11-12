@@ -5,7 +5,6 @@ const nextConfig = {
   output: 'export',
   images: {
     unoptimized: true,
-    domains: ['fonts.googleapis.com', 'fonts.gstatic.com'],
   },
   basePath: isProd ? '/jiaqihe.github.io' : '',
   assetPrefix: isProd ? '/jiaqihe.github.io' : '',
@@ -18,4 +17,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig; 
+module.exports = nextConfig;
