@@ -1,7 +1,6 @@
 'use client'
 
-import { NextUIProvider } from '@nextui-org/react'
-import React from 'react';
+import { NextUIProvider } from '@nextui-org/react';
 
 export default function ClientLayout({
   children,
