@@ -1,66 +1,57 @@
 'use client'
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Card, CardBody, CardFooter } from "@nextui-org/react";
+import { Card, CardBody, CardFooter } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import Spline from '@splinetool/react-spline/next';
+import { Orbitron } from 'next/font/google';
+import NavBar from "./components/Navbar";
+
+const orbitron = Orbitron({ 
+  subsets: ['latin'],
+  display: 'swap',
+});
 
 const blogData = [
   { 
     id: "first-post", 
     title: "My First Blog Post", 
     lastUpdate: "2024-03-20",
-    path: "/blog/first-post"
+    path: "/blog/first-post",
+    tags: ["#FirstPost", "#Introduction", "#Welcome"]
   },
   { 
     id: "learning-nextjs", 
     title: "Learning Next.js", 
     lastUpdate: "2024-03-19",
-    path: "/blog/learning-nextjs"
+    path: "/blog/learning-nextjs",
+    tags: ["#NextJS", "#WebDev", "#React"]
   },
   { 
     id: "web-development", 
     title: "Web Development Journey", 
     lastUpdate: "2024-03-18",
-    path: "/blog/web-development"
+    path: "/blog/web-development",
+    tags: ["#WebDev", "#Journey", "#Learning"]
   },
   { 
     id: "building-with-nextui", 
     title: "Building with NextUI", 
     lastUpdate: "2024-03-17",
-    path: "/blog/building-with-nextui"
+    path: "/blog/building-with-nextui",
+    tags: ["#NextUI", "#UI", "#Design"]
   },
   { 
     id: "animation-with-framer", 
     title: "Animation with Framer Motion", 
     lastUpdate: "2024-03-16",
-    path: "/blog/animation-with-framer"
+    path: "/blog/animation-with-framer",
+    tags: ["#Animation", "#FramerMotion", "#UI"]
   },
 ];
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
-      <Navbar className="bg-background/60 backdrop-blur-md">
-        <NavbarBrand>
-          <p className="font-bold text-inherit">Jiaqi He</p>
-        </NavbarBrand>
-        <NavbarContent className="hidden sm:flex gap-4" justify="center">
-          <NavbarItem>
-            <Link color="foreground" href="#">
-              About
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link color="foreground" href="#">
-              Projects
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link color="foreground" href="#">
-              Contact
-            </Link>
-          </NavbarItem>
-        </NavbarContent>
-      </Navbar>
+    <div className={`min-h-screen ${orbitron.className}`}>
+      <NavBar />
 
       <main className="container mx-auto px-6">
         <div className="relative h-screen">
@@ -99,7 +90,17 @@ export default function Home() {
                   }}
                 >
                   <CardBody>
-                    <h3 className="text-xl font-semibold">{blog.title}</h3>
+                    <h3 className="text-xl font-semibold mb-2">{blog.title}</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {blog.tags.map((tag, index) => (
+                        <span 
+                          key={index}
+                          className="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100 rounded-full"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </CardBody>
                   <CardFooter>
                     <p className="text-sm text-gray-500">
