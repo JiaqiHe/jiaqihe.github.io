@@ -26,7 +26,9 @@ export default async function FirstBlogPost() {
       title="My First Blog Post"
       date="2024-03-20"
     >
-      <div dangerouslySetInnerHTML={{ __html: content }} />
+      <article className="prose prose-slate max-w-none">
+        <div dangerouslySetInnerHTML={{ __html: content }} />
+      </article>
     </BlogLayout>
   );
 } 

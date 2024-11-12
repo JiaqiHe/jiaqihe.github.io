@@ -1,5 +1,5 @@
 'use client'
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Card, CardBody, CardFooter } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Card, CardBody } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import Spline from '@splinetool/react-spline/next';
 
@@ -87,25 +87,24 @@ export default function Home() {
             {blogData.map((blog) => (
               <motion.div
                 key={blog.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                whileHover={{ scale: 1.03 }}
+                transition={{ duration: 0.2 }}
               >
                 <Card 
-                  className="hover:scale-105 transition-transform duration-200"
+                  className="h-full"
                   isPressable
                   onPress={() => {
                     window.location.href = blog.path;
                   }}
                 >
-                  <CardBody>
-                    <h3 className="text-xl font-semibold">{blog.title}</h3>
-                  </CardBody>
-                  <CardFooter>
+                  <CardBody className="flex flex-col gap-1 items-start">
                     <p className="text-sm text-gray-500">
-                      Last updated: {blog.lastUpdate}
+                      {blog.lastUpdate}
                     </p>
-                  </CardFooter>
+                    <h3 className="text-lg font-semibold">{blog.title}</h3>
+                  </CardBody>
                 </Card>
               </motion.div>
             ))}
