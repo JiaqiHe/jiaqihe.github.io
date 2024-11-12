@@ -1,60 +1,43 @@
 'use client'
 
-import BlogLayout from '@/app/components/BlogLayout';
-
-const tags = ["#NextUI", "#UI", "#Design"];
-
-const content = `
-# Building with NextUI
-
-## NextUI 组件库使用经验
-
-NextUI 是一个现代化的 React UI 库，它提供了许多精美的组件和实用的功能。
-
-### 主要特性
-
-- 设计系统集成
-- 暗色模式支持
-- 响应式组件
-- 可访问性支持
-
-## 使用心得
-
-### 优势
-
-1. **组件丰富**
-   - 基础组件完备
-   - 交互组件优秀
-   - 布局组件灵活
-
-2. **主题定制**
-   - 颜色系统
-   - 响应式设计
-   - 暗色模式
-
-3. **开发体验**
-   - TypeScript 支持
-   - 文档完善
-   - 示例丰富
-
-### 实践案例
-
-在本网站中，我使用了多个 NextUI 组件：
-
-- Navbar 导航栏
-- Card 卡片组件
-- Button 按钮
-- Link 链接
-`;
+import { motion } from "framer-motion";
+import { Button } from "@nextui-org/react";
+import Link from "next/link";
 
 export default function BuildingWithNextUI() {
   return (
-    <BlogLayout
-      title="Building with NextUI"
-      date="2024-03-17"
-      tags={tags}
-    >
-      {content}
-    </BlogLayout>
+    <div className="min-h-screen p-4 sm:p-8">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-3xl mx-auto"
+      >
+        <Link href="/">
+          <Button className="mb-8" variant="light">
+            ← 返回首页
+          </Button>
+        </Link>
+        
+        <article className="prose dark:prose-invert lg:prose-xl">
+          <h1 className="text-4xl font-bold mb-4">Building with NextUI</h1>
+          <div className="text-gray-500 mb-8">
+            发布于 2024-03-17
+          </div>
+          <div className="whitespace-pre-line">
+            ## NextUI 组件库使用经验
+
+            NextUI 是一个现代化的 React UI 库，它提供了许多精美的组件和实用的功能：
+
+            - 设计系统集成
+            - 暗色模式支持
+            - 响应式组件
+            - 可访问性支持
+
+            以下是我使用 NextUI 构建应用的一些心得...
+          </div>
+        </article>
+      </motion.div>
+    </div>
   );
 } 

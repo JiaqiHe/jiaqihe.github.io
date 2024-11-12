@@ -1,20 +1,10 @@
 /** @type {import('next').NextConfig} */
-const isProd = process.env.NODE_ENV === 'production';
-
 const nextConfig = {
-  output: 'export',
+  output: 'export',  // 启用静态导出
   images: {
-    unoptimized: true,
+    unoptimized: true  // GitHub Pages 不支持 Next.js 的图片优化
   },
-  basePath: isProd ? '/jiaqihe.github.io' : '',
-  assetPrefix: isProd ? '/jiaqihe.github.io' : '',
-  webpack: (config) => {
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      "punycode": false,
-    };
-    return config;
-  },
+  basePath: '/jiaqihe.github.io'
 };
 
-module.exports = nextConfig;
+module.exports = nextConfig; 
