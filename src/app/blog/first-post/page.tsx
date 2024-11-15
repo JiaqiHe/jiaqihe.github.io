@@ -1,7 +1,7 @@
-import BlogLayout from '@/app/components/BlogLayout';
+import ClientBlogLayout from '@/app/components/ClientBlogLayout';
 import { markdownToHtml } from '@/lib/markdown';
 
-export default async function FirstBlogPost() {
+export default async function BlogPost() {
   const markdown = `
 这是我的第一篇博客文章。在这里，我将分享我的编程经验和学习心得。
 
@@ -22,13 +22,14 @@ export default async function FirstBlogPost() {
   const content = await markdownToHtml(markdown);
 
   return (
-    <BlogLayout
-      title="My First Blog Post"
+    <ClientBlogLayout 
+      title="My First Blog Post" 
       date="2024-03-20"
+      tags={["Next.js", "React"]}
     >
       <article className="prose prose-slate max-w-none">
         <div dangerouslySetInnerHTML={{ __html: content }} />
       </article>
-    </BlogLayout>
+    </ClientBlogLayout>
   );
 } 
