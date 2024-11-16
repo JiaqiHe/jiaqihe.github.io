@@ -4,7 +4,7 @@ import path from 'path';
 
 export async function POST(request: Request) {
   try {
-    const { title, date, tags, content } = await request.json();
+    const { title, content } = await request.json();
     
     // 创建URL友好的文件名
     const slug = title

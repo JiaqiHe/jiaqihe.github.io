@@ -206,7 +206,7 @@ ${content}
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
-                    code: ({ className, children }: CodeProps) => (
+                    code: ({ children }: CodeProps) => (
                       <code className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded">
                         {children}
                       </code>
