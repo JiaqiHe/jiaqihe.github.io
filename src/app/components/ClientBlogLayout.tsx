@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
-import ReactMarkdown from 'react-markdown';
+import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
 interface ClientBlogLayoutProps {
@@ -14,6 +14,16 @@ interface ClientBlogLayoutProps {
 }
 
 export default function ClientBlogLayout({ title, date, tags = [], children }: ClientBlogLayoutProps) {
+  const components: Components = {
+    code: ({children, ...props}) => {
+      return (
+        <code className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded" {...props}>
+          {children}
+        </code>
+      );
+    }
+  };
+
   return (
     <div className="min-h-screen p-4 sm:p-8">
       <motion.div 
@@ -36,7 +46,7 @@ export default function ClientBlogLayout({ title, date, tags = [], children }: C
               {tags.map((tag) => (
                 <span 
                   key={tag}
-                  className="px-2 py-1 text-xs rounded-full bg-teal-500/10 text-teal-700"
+                  className="px-2 py-1 text-xs rounded-full bg-teal-500/10 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300"
                 >
                   {tag}
                 </span>
@@ -48,13 +58,7 @@ export default function ClientBlogLayout({ title, date, tags = [], children }: C
         <article className="prose prose-slate max-w-none dark:prose-invert prose-p:my-2 prose-li:my-0 prose-ul:my-2 prose-h2:mb-3 prose-h2:mt-6">
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
-            components={{
-              code: ({children}: {children: string}) => (
-                <code className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded">
-                  {children}
-                </code>
-              )
-            }}
+            components={components}
           >
             {children}
           </ReactMarkdown>

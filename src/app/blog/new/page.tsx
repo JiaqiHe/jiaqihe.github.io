@@ -7,7 +7,9 @@ import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
-interface CodeProps {
+interface CodeProps extends React.HTMLProps<HTMLElement> {
+  node?: unknown;
+  inline?: boolean;
   className?: string;
   children?: React.ReactNode;
 }
@@ -29,7 +31,10 @@ export default function NewBlogPost() {
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const file = event.target.files?.[0];
-      if (!file) return;
+      if (!file) {
+        console.warn('No file selected');
+        return;
+      }
 
       setIsLoading(true);
       const text = await file.text();
@@ -206,8 +211,8 @@ ${content}
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
-                    code: ({ children }: CodeProps) => (
-                      <code className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded">
+                    code: ({ children, ...props }: CodeProps) => (
+                      <code className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded" {...props}>
                         {children}
                       </code>
                     )
