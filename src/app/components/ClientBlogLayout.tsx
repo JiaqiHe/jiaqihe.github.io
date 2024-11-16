@@ -3,12 +3,14 @@
 import { motion } from "framer-motion";
 import { Button } from "@nextui-org/react";
 import Link from "next/link";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface ClientBlogLayoutProps {
   title: string;
   date: string;
   tags?: string[];
-  children: React.ReactNode;
+  children: string;
 }
 
 export default function ClientBlogLayout({ title, date, tags = [], children }: ClientBlogLayoutProps) {
@@ -25,29 +27,37 @@ export default function ClientBlogLayout({ title, date, tags = [], children }: C
             ← Back to Home
           </Button>
         </Link>
-        
-        <article className="prose dark:prose-invert lg:prose-xl">
+
+        <div className="mb-8">
           <h1 className="text-4xl font-bold mb-4">{title}</h1>
-          <div className="flex flex-col gap-4 mb-8">
-            <div className="text-gray-500">
-              发布于 {date}
+          <div className="space-y-2 text-gray-500 dark:text-gray-400">
+            <time>Created on {date}</time>
+            <div className="flex gap-2 flex-wrap">
+              {tags.map((tag) => (
+                <span 
+                  key={tag}
+                  className="px-2 py-1 text-xs rounded-full bg-teal-500/10 text-teal-700"
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
-            {tags.length > 0 && (
-              <div className="flex gap-2 flex-wrap">
-                {tags.map((tag) => (
-                  <span 
-                    key={tag}
-                    className="px-2 py-1 text-xs rounded-full bg-emerald-500/10 text-emerald-500"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
           </div>
-          <div className="whitespace-pre-line">
+        </div>
+        
+        <article className="prose prose-slate max-w-none dark:prose-invert prose-p:my-2 prose-li:my-0 prose-ul:my-2 prose-h2:mb-3 prose-h2:mt-6">
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              code: ({children}: {children: string}) => (
+                <code className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded">
+                  {children}
+                </code>
+              )
+            }}
+          >
             {children}
-          </div>
+          </ReactMarkdown>
         </article>
       </motion.div>
     </div>

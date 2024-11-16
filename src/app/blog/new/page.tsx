@@ -5,6 +5,12 @@ import { Input, Button, Textarea, Switch } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { useRouter } from 'next/navigation';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+
+interface CodeProps {
+  className?: string;
+  children?: React.ReactNode;
+}
 
 export default function NewBlogPost() {
   const router = useRouter();
@@ -32,8 +38,8 @@ export default function NewBlogPost() {
       const dateMatch = text.match(/date="([^"]+)"/);
       const tagsMatch = text.match(/tags=\{(\[[^\]]+\])\}/);
       
-      const markdownMatch = text.match(/markdown = `\n?([\s\S]+?)`/);
-      const alternativeMarkdownMatch = text.match(/const markdown = ['"`]([\s\S]+?)['"`]/);
+      const markdownMatch = text.match(/const markdown = `\n([\s\S]+?)`;\s*\n\s*return/);
+      const alternativeMarkdownMatch = text.match(/markdown = `\n([\s\S]+?)`;\s*\n\s*return/);
 
       if (titleMatch) setTitle(titleMatch[1]);
       if (dateMatch) setDate(dateMatch[1]);
@@ -48,7 +54,12 @@ export default function NewBlogPost() {
       
       const contentMatch = markdownMatch || alternativeMarkdownMatch;
       if (contentMatch) {
-        setContent(contentMatch[1].trim());
+        const cleanContent = contentMatch[1]
+          .split('\n')
+          .map(line => line.replace(/^  /, ''))
+          .join('\n')
+          .trim();
+        setContent(cleanContent);
       } else {
         console.warn('Could not find markdown content in file');
       }
@@ -69,6 +80,25 @@ export default function NewBlogPost() {
       setIsLoading(true);
       const tagArray = tags.split(',').map(tag => tag.trim());
       
+      const pageContent = `import ClientBlogLayout from '@/app/components/ClientBlogLayout';
+
+export default function BlogPost() {
+  const markdown = \`
+${content}
+\`;
+
+  return (
+    <ClientBlogLayout 
+      title="${title}" 
+      date="${date}"
+      tags={[${tagArray.map(tag => `"${tag}"`).join(', ')}]}
+    >
+      {markdown}
+    </ClientBlogLayout>
+  );
+} 
+`;
+
       const response = await fetch('/api/blog', {
         method: 'POST',
         headers: {
@@ -78,7 +108,7 @@ export default function NewBlogPost() {
           title,
           date,
           tags: tagArray,
-          content,
+          content: pageContent,
         }),
       });
 
@@ -172,8 +202,17 @@ export default function NewBlogPost() {
             </div>
 
             {showPreview && (
-              <div className="border rounded-lg p-4 prose prose-slate max-w-none dark:prose-invert overflow-auto max-h-[600px]">
-                <ReactMarkdown>
+              <div className="border rounded-lg p-4 prose prose-slate max-w-none dark:prose-invert prose-p:my-2 prose-li:my-0 prose-ul:my-2 prose-h2:mb-3 prose-h2:mt-6">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    code: ({ className, children }: CodeProps) => (
+                      <code className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded">
+                        {children}
+                      </code>
+                    )
+                  }}
+                >
                   {content || 'Preview area'}
                 </ReactMarkdown>
               </div>
