@@ -201,13 +201,16 @@ ${content}
                 placeholder="Write your blog content in Markdown format"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                minRows={15}
-                className="w-full"
+                classNames={{
+                  base: "h-[600px]",
+                  input: "h-full resize-none",
+                  inputWrapper: "h-full"
+                }}
               />
             </div>
 
             {showPreview && (
-              <div className="border rounded-lg p-4 prose prose-slate max-w-none dark:prose-invert prose-p:my-2 prose-li:my-0 prose-ul:my-2 prose-h2:mb-3 prose-h2:mt-6">
+              <div className="border rounded-lg p-4 prose prose-slate max-w-none dark:prose-invert prose-p:my-2 prose-li:my-0 prose-ul:my-2 prose-h2:mb-3 prose-h2:mt-6 h-[600px] overflow-y-auto">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   components={{
@@ -222,6 +225,28 @@ ${content}
                 </ReactMarkdown>
               </div>
             )}
+          </div>
+
+          <div className="bg-gray-50 dark:bg-gray-900 p-4 rounded-lg">
+            <h3 className="text-lg font-semibold mb-3">Markdown 使用提示</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <h4 className="font-medium text-primary">图片链接</h4>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">从 GitHub 仓库链接图片时：</p>
+                <ul className="list-disc list-inside text-sm text-gray-600 dark:text-gray-400">
+                  <li>使用 raw GitHub URL 格式</li>
+                  <li>将 github.com 替换为 raw.githubusercontent.com</li>
+                  <li>移除路径中的 blob/</li>
+                </ul>
+                <div className="mt-2 text-sm font-mono bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                  <div className="text-red-500">❌ https://github.com/username/repo/blob/main/image.png</div>
+                  <div className="text-green-500">✅ https://raw.githubusercontent.com/JiaqiHe/jiaqihe.github.io/main/src/app/blog/[blog-name]/[image-name].[image-format]</div>
+                </div>
+              </div>
+              
+              {/* 可以继续添加更多提示 */}
+            </div>
           </div>
 
           <Button
