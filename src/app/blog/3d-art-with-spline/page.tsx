@@ -24,13 +24,13 @@ Spline has an extensive spectrum of tutorials directly nested in their home page
 
 For instance, I tried to follow this [tutorial](https://www.youtube.com/watch?v=JlrzLhEwMGI) with the hope to familiarize how to create shapes at will. I failed to follow, check out what I made compared to the reference:
 
-![spline_ramp_up_story](https://jiaqihe.github.io/blog/3d-art-with-spline/spline_ramp_up_bunny.gif)
+![spline_ramp_up_bunny](https://github.com/JiaqiHe/jiaqihe.github.io/blob/main/src/app/blog/3d-art-with-spline/spline_ramp_up_bunny.gif)
 
 I quickly realized that I needed basic tutorials. Luckily, Spline has [documentations](https://docs.spline.design/doc/-getting-started/doc390iSGamE) too. And these docs proved to be super helpful! I'd encourage everyone to begin with this starting documentation.
 
 After picking up the basic operations and getting to know a few functionalities, I then went back to check out those fancy tutorials. And here was the glass cube I made:
 
-![spline_ramp_up_story](https://jiaqihe.github.io/blog/3d-art-with-spline/spline_ramp_up_cube.gif)
+![spline_ramp_up_cube](https://github.com/JiaqiHe/jiaqihe.github.io/blob/main/src/app/blog/3d-art-with-spline/spline_ramp_up_cube.gif)
 
 ### Create!
 
