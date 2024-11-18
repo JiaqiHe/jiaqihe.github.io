@@ -51,6 +51,8 @@ Check out the final scene:
 
 ![spline_create_fish_pond](https://raw.githubusercontent.com/JiaqiHe/jiaqihe.github.io/main/src/app/blog/3d-art-with-spline/spline_create_fish_pond.gif)
 
+You can also interact with the scene in my craft ["Fish Pond with Spline"](https://jiaqihe.github.io/craft/fish-pond-with-spline).
+
 ## My tips
 
 * Check out Spline [documentations](https://docs.spline.design/doc/-getting-started/doc390iSGamE) for starters.

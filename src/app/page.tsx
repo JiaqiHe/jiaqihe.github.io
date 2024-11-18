@@ -1,8 +1,9 @@
 'use client'
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Link, Card, CardBody } from "@nextui-org/react";
+import {Card, CardBody } from "@nextui-org/react";
 import { motion, AnimatePresence } from "framer-motion";
 import Spline from '@splinetool/react-spline';
 import { useState } from "react";
+import MainNavbar from '../components/Navbar';
 
 const blogData = [
   {
@@ -29,6 +30,22 @@ const blogData = [
   }
 ];
 
+// Add craftData array after blogData
+const craftData = [
+  {
+    "id": "fish-pond-with-spline",
+    "title": "Fish Pond with Spline",
+    "lastUpdate": "Nov 2024",
+    "path": "/craft/fish-pond-with-spline",
+    "coverImage": "/craft/fish-pond-with-spline/cover.png",
+    "tags": [
+      "Spline",
+      "3D",
+      "Interactive"
+    ]
+  }
+];
+
 // Add new sections data
 const sections = [
   { id: 'blog', title: 'BLOG', subtitle: 'My 5 Latest Posts' },
@@ -51,39 +68,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
-      <Navbar>
-        <NavbarBrand>
-          <p className="font-bold text-inherit hover:opacity-80 transition-opacity">
-            Jiaqi He
-          </p>
-        </NavbarBrand>
-        <NavbarContent className="hidden sm:flex gap-4" justify="center">
-          <NavbarItem>
-            <Link 
-              href="#"
-              className="relative after:content-[''] after:absolute after:w-full after:h-[1px] after:bg-primary after:left-0 after:bottom-0 after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
-            >
-              About
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link 
-              href="#"
-              className="relative after:content-[''] after:absolute after:w-full after:h-[1px] after:bg-primary after:left-0 after:bottom-0 after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
-            >
-              Projects
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link 
-              href="#"
-              className="relative after:content-[''] after:absolute after:w-full after:h-[1px] after:bg-primary after:left-0 after:bottom-0 after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform"
-            >
-              Contact
-            </Link>
-          </NavbarItem>
-        </NavbarContent>
-      </Navbar>
+      <MainNavbar />
 
       <main className="container mx-auto px-6">
         <div className="fixed inset-0 w-screen h-screen">
@@ -227,11 +212,59 @@ export default function Home() {
 
                   {currentSection.id === 'craft' && (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-                      {/* Placeholder cards for craft section */}
-                      {[1, 2, 3, 4, 5, 6].map((item) => (
+                      {/* Real craft card */}
+                      {craftData.map((craft) => (
                         <motion.div
-                          key={item}
-                          className="h-[150px] w-full"
+                          key={craft.id}
+                          className="h-[250px] w-full" // Increased height for better image display
+                          initial={{ opacity: 0, y: 20 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          whileHover={{ scale: 1.03 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <Card 
+                            className="w-full h-full bg-background/40 backdrop-blur-[2px] overflow-hidden"
+                            isPressable
+                            onPress={() => {
+                              window.location.href = craft.path;
+                            }}
+                          >
+                            <div 
+                              className="absolute inset-0 z-0 bg-cover bg-center"
+                              style={{ 
+                                backgroundImage: `url(${craft.coverImage})`,
+                                opacity: 0.5
+                              }}
+                            />
+                            <CardBody className="flex flex-col justify-between p-4 relative z-10">
+                              <div className="space-y-2">
+                                <p className="text-sm text-gray-300">
+                                  {craft.lastUpdate}
+                                </p>
+                                <h3 className="text-xl font-semibold text-white">
+                                  {craft.title}
+                                </h3>
+                              </div>
+                              <div className="flex gap-2 flex-wrap">
+                                {craft.tags.map((tag) => (
+                                  <span 
+                                    key={tag}
+                                    className="px-2 py-1 text-xs rounded-full bg-teal-500/10 text-teal-700"
+                                  >
+                                    {tag}
+                                  </span>
+                                ))}
+                              </div>
+                            </CardBody>
+                          </Card>
+                        </motion.div>
+                      ))}
+                      
+                      {/* Placeholder cards */}
+                      {[1, 2, 3, 4, 5].map((item) => (
+                        <motion.div
+                          key={`placeholder-${item}`}
+                          className="h-[250px] w-full"
                           initial={{ opacity: 0, y: 20 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           whileHover={{ scale: 1.03 }}
