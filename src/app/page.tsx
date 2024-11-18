@@ -5,41 +5,28 @@ import Spline from '@splinetool/react-spline';
 import { useState } from "react";
 
 const blogData = [
-  { 
-    id: "first-post", 
-    title: "My First Blog Post", 
-    lastUpdate: "2024-03-20",
-    path: "/blog/first-post",
-    tags: ["Next.js", "React"]
+  {
+    "id": "3d-art-with-spline",
+    "title": "3D Art With Spline",
+    "lastUpdate": "2024-11-17",
+    "path": "/blog/3d-art-with-spline",
+    "tags": [
+      "3D",
+      "Spline",
+      "Mixamo"
+    ]
   },
-  { 
-    id: "learning-nextjs", 
-    title: "Learning Next.js", 
-    lastUpdate: "2024-03-19",
-    path: "/blog/learning-nextjs",
-    tags: ["Next.js", "Tutorial"]
-  },
-  { 
-    id: "web-development", 
-    title: "Web Development Journey", 
-    lastUpdate: "2024-03-18",
-    path: "/blog/web-development",
-    tags: ["Web Dev", "Career"]
-  },
-  { 
-    id: "building-with-nextui", 
-    title: "Building with NextUI", 
-    lastUpdate: "2024-03-17",
-    path: "/blog/building-with-nextui",
-    tags: ["NextUI", "Design"]
-  },
-  { 
-    id: "animation-with-framer", 
-    title: "Animation with Framer Motion", 
-    lastUpdate: "2024-03-16",
-    path: "/blog/animation-with-framer",
-    tags: ["Animation", "Framer"]
-  },
+  {
+    "id": "creation-of-this-website",
+    "title": "Creation of This Website",
+    "lastUpdate": "2024-11-16",
+    "path": "/blog/creation-of-this-website",
+    "tags": [
+      "Next.js",
+      "GitHub Pages",
+      "Cursor"
+    ]
+  }
 ];
 
 // Add new sections data
