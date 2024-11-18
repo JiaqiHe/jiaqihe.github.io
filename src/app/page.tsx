@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import Spline from '@splinetool/react-spline';
 import { useState } from "react";
 import MainNavbar from '../components/Navbar';
+import { FaLinkedin, FaGithub } from "react-icons/fa";
+import { SiHuggingface } from "react-icons/si";
 
 const blogData = [
   {
@@ -97,15 +99,49 @@ export default function Home() {
               Jiaqi
             </motion.span>
           </h1>
-          <p className="text-xl text-gray-500 dark:text-gray-300">
+          <p className="text-xl text-gray-500 dark:text-gray-300 mb-6">
             Welcome to my portfolio space
           </p>
+          
+          {/* Social Icons */}
+          <div className="flex gap-4">
+            <motion.a
+              href="https://www.linkedin.com/in/jiaqi-he-097826149/"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="text-gray-500 hover:text-teal-500 transition-colors"
+            >
+              <FaLinkedin size={24} />
+            </motion.a>
+            <motion.a
+              href="https://github.com/JiaqiHe"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="text-gray-500 hover:text-teal-500 transition-colors"
+            >
+              <FaGithub size={24} />
+            </motion.a>
+            <motion.a
+              href="https://huggingface.co/jiaqihe"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="text-gray-500 hover:text-teal-500 transition-colors"
+            >
+              <SiHuggingface size={26} />
+            </motion.a>
+          </div>
         </motion.div>
 
         <div className="relative">
           <AnimatePresence mode="wait">
             <motion.section 
-              className="relative py-20 mt-32 min-h-[400px]"
+              className="relative py-20 mt-32 min-h-[600px]"
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
