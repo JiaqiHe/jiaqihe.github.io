@@ -37,7 +37,7 @@ const craftData = [
     "title": "Fish Pond with Spline",
     "lastUpdate": "Nov 2024",
     "path": "/craft/fish-pond-with-spline",
-    "coverImage": "/craft/fish-pond-with-spline/cover.png",
+    "coverImage": "https://raw.githubusercontent.com/JiaqiHe/jiaqihe.github.io/main/src/app/craft/fish-pond-with-spline/cover.png",
     "tags": [
       "Spline",
       "3D",
@@ -98,7 +98,7 @@ export default function Home() {
             </motion.span>
           </h1>
           <p className="text-xl text-gray-500 dark:text-gray-300">
-            Welcome to my portfolio space!
+            Welcome to my portfolio space
           </p>
         </motion.div>
 
@@ -254,40 +254,6 @@ export default function Home() {
                                     {tag}
                                   </span>
                                 ))}
-                              </div>
-                            </CardBody>
-                          </Card>
-                        </motion.div>
-                      ))}
-                      
-                      {/* Placeholder cards */}
-                      {[1, 2, 3, 4, 5].map((item) => (
-                        <motion.div
-                          key={`placeholder-${item}`}
-                          className="h-[250px] w-full"
-                          initial={{ opacity: 0, y: 20 }}
-                          whileInView={{ opacity: 1, y: 0 }}
-                          whileHover={{ scale: 1.03 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          <Card 
-                            className="w-full h-full bg-background/40 backdrop-blur-[2px]"
-                            isPressable
-                          >
-                            <CardBody className="flex flex-col justify-between p-4">
-                              <div className="space-y-2">
-                                <p className="text-sm text-gray-500">
-                                  Coming Soon
-                                </p>
-                                <h3 className="text-lg font-semibold">Project {item}</h3>
-                              </div>
-                              <div className="flex gap-2 flex-wrap">
-                                <span className="px-2 py-1 text-xs rounded-full bg-teal-500/10 text-teal-700">
-                                  Design
-                                </span>
-                                <span className="px-2 py-1 text-xs rounded-full bg-teal-500/10 text-teal-700">
-                                  Development
-                                </span>
                               </div>
                             </CardBody>
                           </Card>
