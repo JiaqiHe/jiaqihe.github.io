@@ -6,6 +6,7 @@ import { useState } from "react";
 import MainNavbar from '../components/Navbar';
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 import { SiHuggingface } from "react-icons/si";
+import GoogleAnalytics from '../components/GoogleAnalytics';
 
 const blogData = [
   {
@@ -70,6 +71,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen">
+      <GoogleAnalytics />
       <MainNavbar />
 
       <main className="container mx-auto px-6">

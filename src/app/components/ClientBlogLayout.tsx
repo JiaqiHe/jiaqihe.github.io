@@ -5,6 +5,7 @@ import { Button } from "@nextui-org/react";
 import Link from "next/link";
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import GoogleAnalytics from '../../components/GoogleAnalytics';
 
 interface ClientBlogLayoutProps {
   title: string;
@@ -26,6 +27,7 @@ export default function ClientBlogLayout({ title, date, tags = [], children }: C
 
   return (
     <div className="min-h-screen p-4 sm:p-8">
+      <GoogleAnalytics />
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
