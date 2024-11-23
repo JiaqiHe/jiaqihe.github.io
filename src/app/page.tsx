@@ -10,6 +10,17 @@ import GoogleAnalytics from '../components/GoogleAnalytics';
 
 const blogData = [
   {
+    "id": "a-taste-of-deep-reinforcement-learning",
+    "title": "A Taste of Deep Reinforcement Learning",
+    "lastUpdate": "2024-11-22",
+    "path": "/blog/a-taste-of-deep-reinforcement-learning",
+    "tags": [
+      "DeepRL",
+      "Godot",
+      "Agent"
+    ]
+  },
+  {
     "id": "3d-art-with-spline",
     "title": "3D Art With Spline",
     "lastUpdate": "2024-11-17",
