@@ -10,6 +10,17 @@ import GoogleAnalytics from '../components/GoogleAnalytics';
 
 const blogData = [
   {
+    "id": "game-dev-1-creating-world-map",
+    "title": "[Game Dev #1] Creating world map",
+    "lastUpdate": "2024-11-30",
+    "path": "/blog/game-dev-1-creating-world-map",
+    "tags": [
+      "Game dev log",
+      "Godot",
+      "TileMapLayer"
+    ]
+  },
+  {
     "id": "a-taste-of-deep-reinforcement-learning",
     "title": "A Taste of Deep Reinforcement Learning",
     "lastUpdate": "2024-11-22",
