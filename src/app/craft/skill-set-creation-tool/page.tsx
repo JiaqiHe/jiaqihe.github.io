@@ -297,7 +297,8 @@ export default function SkillSetCreationTool() {
           }));
           setSkills(processedSkills);
         } catch (error) {
-          alert('Error importing skills: Invalid JSON file');
+          const errorMessage = (error as Error).message;
+          alert(`Error importing skills: ${errorMessage}`);
         }
       };
       reader.readAsText(file);
