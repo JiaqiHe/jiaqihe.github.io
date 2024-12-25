@@ -108,17 +108,14 @@ interface Skill {
   icon: string;
   skill_rarity: number;
   skill_can_be_acquired_by: number[];
-  impacts: {
-    [key: number]: {
-      [key: number]: number;
-    };
-  };
+  impacts: Impact[];
 }
 
 interface Impact {
-  category: string;
-  operator: string;
+  trait: number;
+  operator: number;
   factor: number;
+  scope: number;
 }
 
 const RARITY_LEVELS = [
@@ -145,10 +142,7 @@ const ACQUIRABLE_BY = {
   '1021': 'ISTP', '1022': 'ISFP', '1023': 'ESTP', '1024': 'ESFP'
 };
 
-const IMPACT_CATEGORIES = {
-  '1': 'Company',
-  '2': 'Project Team',
-  '3': 'Individual',
+const TRAITS = {
   '10001': 'Art',
   '10002': 'Code',
   '10003': 'Test',
@@ -158,6 +152,12 @@ const IMPACT_CATEGORIES = {
   '10007': 'Stress',
   '10008': 'Success Rate',
   '10009': 'Event Rate'
+};
+
+const SCOPES = {
+  '1': 'Company',
+  '2': 'Project Team',
+  '3': 'Individual'
 };
 
 const IMPACT_OPERATORS = {
@@ -172,7 +172,7 @@ export default function SkillSetCreationTool() {
   const [newSkill, setNewSkill] = useState<Partial<Skill>>({
     skill_rarity: 0,
     skill_can_be_acquired_by: [],
-    impacts: {},
+    impacts: [],
   });
   const [impacts, setImpacts] = useState<Impact[]>([]);
   const [filters, setFilters] = useState({
@@ -186,7 +186,7 @@ export default function SkillSetCreationTool() {
     setNewSkill({
       skill_rarity: 0,
       skill_can_be_acquired_by: [],
-      impacts: {},
+      impacts: [],
     });
     setImpacts([]);
     setIsDialogOpen(true);
@@ -195,30 +195,19 @@ export default function SkillSetCreationTool() {
   const handleEditSkill = (skill: Skill) => {
     setIsEditing(true);
     setNewSkill(skill);
-    // Convert impacts dictionary back to array format for editing
-    const impactsArray: Impact[] = [];
-    Object.entries(skill.impacts).forEach(([category, operators]) => {
-      Object.entries(operators).forEach(([operator, factor]) => {
-        impactsArray.push({
-          category,
-          operator,
-          factor,
-        });
-      });
-    });
-    setImpacts(impactsArray);
+    setImpacts(skill.impacts);
     setIsDialogOpen(true);
   };
 
   const handleAddImpact = () => {
-    setImpacts([...impacts, { category: '', operator: '', factor: 0 }]);
+    setImpacts([...impacts, { trait: 10001, operator: 1, factor: 0, scope: 1 }]);
   };
 
   const handleRemoveImpact = (index: number) => {
     setImpacts(impacts.filter((_, i) => i !== index));
   };
 
-  const handleImpactChange = (index: number, field: keyof Impact, value: string | number) => {
+  const handleImpactChange = (index: number, field: keyof Impact, value: number) => {
     const newImpacts = [...impacts];
     newImpacts[index] = { ...newImpacts[index], [field]: value };
     setImpacts(newImpacts);
@@ -226,31 +215,17 @@ export default function SkillSetCreationTool() {
 
   const handleSaveSkill = () => {
     if (newSkill.skill_name) {
-      // Convert impacts array to the required dictionary format with number keys
-      const impactsDict: { [key: number]: { [key: number]: number } } = {};
-      impacts.forEach(impact => {
-        if (impact.category && impact.operator) {
-          const categoryKey = Number(impact.category);
-          const operatorKey = Number(impact.operator);
-          
-          if (!impactsDict[categoryKey]) {
-            impactsDict[categoryKey] = {};
-          }
-          impactsDict[categoryKey][operatorKey] = impact.factor;
-        }
-      });
-
       if (isEditing) {
         setSkills(skills.map(skill => 
           skill.skill_id === newSkill.skill_id 
-            ? { ...newSkill, impacts: impactsDict } as Skill
+            ? { ...newSkill, impacts } as Skill
             : skill
         ));
       } else {
         setSkills([...skills, {
           ...newSkill,
           skill_id: skills.length,
-          impacts: impactsDict
+          impacts
         } as Skill]);
       }
       
@@ -258,7 +233,7 @@ export default function SkillSetCreationTool() {
       setNewSkill({
         skill_rarity: 0,
         skill_can_be_acquired_by: [],
-        impacts: {},
+        impacts: [],
       });
       setImpacts([]);
     }
@@ -287,13 +262,12 @@ export default function SkillSetCreationTool() {
           // Convert impact keys back to numbers
           const processedSkills = importedSkills.map((skill: Skill) => ({
             ...skill,
-            impacts: Object.entries(skill.impacts).reduce((acc, [category, operators]) => {
-              acc[Number(category)] = Object.entries(operators).reduce((opAcc, [op, factor]) => {
-                opAcc[Number(op)] = factor;
-                return opAcc;
-              }, {} as { [key: number]: number });
-              return acc;
-            }, {} as { [key: number]: { [key: number]: number } })
+            impacts: skill.impacts.map((impact: Impact) => ({
+              trait: Number(impact.trait),
+              operator: Number(impact.operator),
+              factor: impact.factor,
+              scope: Number(impact.scope)
+            }))
           }));
           setSkills(processedSkills);
         } catch (error) {
@@ -305,14 +279,12 @@ export default function SkillSetCreationTool() {
     }
   };
 
-  const formatImpacts = (impacts: { [key: string]: { [key: string]: number } }) => {
-    return Object.entries(impacts).map(([category, operators]) => {
-      const categoryName = IMPACT_CATEGORIES[category as keyof typeof IMPACT_CATEGORIES];
-      const operatorEffects = Object.entries(operators).map(([op, factor]) => {
-        const operatorName = IMPACT_OPERATORS[op as keyof typeof IMPACT_OPERATORS];
-        return `${operatorName} ${factor}`;
-      }).join(', ');
-      return `${categoryName}: ${operatorEffects}`;
+  const formatImpacts = (impacts: Impact[]) => {
+    return impacts.map(impact => {
+      const traitName = TRAITS[impact.trait.toString() as keyof typeof TRAITS];
+      const operatorName = IMPACT_OPERATORS[impact.operator.toString() as keyof typeof IMPACT_OPERATORS];
+      const scopeName = SCOPES[impact.scope.toString() as keyof typeof SCOPES];
+      return `${traitName} (${scopeName}): ${operatorName} ${impact.factor}`;
     }).join('; ');
   };
 
@@ -379,7 +351,7 @@ export default function SkillSetCreationTool() {
           </div>
 
           <div>
-            <Typography variant="h6" gutterBottom>Impact Categories</Typography>
+            <Typography variant="h6" gutterBottom>Traits</Typography>
             <TableContainer>
               <Table size="small">
                 <TableHead>
@@ -389,7 +361,29 @@ export default function SkillSetCreationTool() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {Object.entries(IMPACT_CATEGORIES).map(([value, label]) => (
+                  {Object.entries(TRAITS).map(([value, label]) => (
+                    <TableRow key={value}>
+                      <TableCell>{value}</TableCell>
+                      <TableCell>{label}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
+
+          <div>
+            <Typography variant="h6" gutterBottom>Scopes</Typography>
+            <TableContainer>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Value</TableCell>
+                    <TableCell>Label</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {Object.entries(SCOPES).map(([value, label]) => (
                     <TableRow key={value}>
                       <TableCell>{value}</TableCell>
                       <TableCell>{label}</TableCell>
@@ -584,28 +578,42 @@ export default function SkillSetCreationTool() {
               
               {impacts.map((impact, index) => (
                 <div key={index} className="flex gap-2 mb-2">
-                  <FormControl fullWidth>
-                    <InputLabel>Category</InputLabel>
+                  <FormControl sx={{ width: '25%' }}>
+                    <InputLabel>Trait</InputLabel>
                     <Select
-                      value={impact.category}
-                      onChange={(e) => handleImpactChange(index, 'category', e.target.value)}
+                      value={impact.trait}
+                      onChange={(e) => handleImpactChange(index, 'trait', Number(e.target.value))}
                     >
-                      {Object.entries(IMPACT_CATEGORIES).map(([value, label]) => (
-                        <MenuItem key={value} value={value}>
+                      {Object.entries(TRAITS).map(([value, label]) => (
+                        <MenuItem key={value} value={Number(value)}>
                           {label}
                         </MenuItem>
                       ))}
                     </Select>
                   </FormControl>
 
-                  <FormControl fullWidth>
+                  <FormControl sx={{ width: '20%' }}>
+                    <InputLabel>Scope</InputLabel>
+                    <Select
+                      value={impact.scope}
+                      onChange={(e) => handleImpactChange(index, 'scope', Number(e.target.value))}
+                    >
+                      {Object.entries(SCOPES).map(([value, label]) => (
+                        <MenuItem key={value} value={Number(value)}>
+                          {label}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+
+                  <FormControl sx={{ width: '15%' }}>
                     <InputLabel>Operator</InputLabel>
                     <Select
                       value={impact.operator}
-                      onChange={(e) => handleImpactChange(index, 'operator', e.target.value)}
+                      onChange={(e) => handleImpactChange(index, 'operator', Number(e.target.value))}
                     >
                       {Object.entries(IMPACT_OPERATORS).map(([value, label]) => (
-                        <MenuItem key={value} value={value}>
+                        <MenuItem key={value} value={Number(value)}>
                           {label}
                         </MenuItem>
                       ))}
@@ -613,6 +621,7 @@ export default function SkillSetCreationTool() {
                   </FormControl>
 
                   <TextField
+                    sx={{ width: '30%' }}
                     type="number"
                     label="Factor"
                     value={impact.factor}
