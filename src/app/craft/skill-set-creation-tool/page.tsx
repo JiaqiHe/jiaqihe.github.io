@@ -100,6 +100,7 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 interface Skill {
   skill_id: number;
@@ -291,10 +292,17 @@ export default function SkillSetCreationTool() {
   const filteredSkills = [...skills]
     .sort((a, b) => a.skill_id - b.skill_id)
     .filter(skill => {
-      if (filters.rarity && skill.skill_rarity !== Number(filters.rarity)) return false;
+      if (filters.rarity !== '') {
+        const rarityFilter = Number(filters.rarity);
+        if (skill.skill_rarity !== rarityFilter) return false;
+      }
       if (filters.acquirableBy && !skill.skill_can_be_acquired_by.includes(Number(filters.acquirableBy))) return false;
       return true;
     });
+
+  const handleDeleteSkill = (skillId: number) => {
+    setSkills(skills.filter(skill => skill.skill_id !== skillId));
+  };
 
   const HelpDialog = () => (
     <Dialog 
@@ -654,17 +662,14 @@ export default function SkillSetCreationTool() {
               <TableCell>Rarity</TableCell>
               <TableCell>Acquirable By</TableCell>
               <TableCell>Impacts</TableCell>
+              <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {filteredSkills.map((skill) => (
               <TableRow 
                 key={skill.skill_id}
-                onClick={() => handleEditSkill(skill)}
-                sx={{ 
-                  cursor: 'pointer',
-                  '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' }
-                }}
+                sx={{ '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.04)' } }}
               >
                 <TableCell>{skill.skill_id}</TableCell>
                 <TableCell>{skill.skill_name}</TableCell>
@@ -676,6 +681,25 @@ export default function SkillSetCreationTool() {
                     .join(', ')}
                 </TableCell>
                 <TableCell>{formatImpacts(skill.impacts)}</TableCell>
+                <TableCell>
+                  <IconButton 
+                    onClick={(e) => {
+                      e.stopPropagation(); // 防止触发行点击事件
+                      handleDeleteSkill(skill.skill_id);
+                    }}
+                    size="small"
+                    color="error"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                  <IconButton 
+                    onClick={() => handleEditSkill(skill)}
+                    size="small"
+                    color="primary"
+                  >
+                    <EditIcon />
+                  </IconButton>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
